@@ -1,16 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Play } from 'lucide-react'
 import { slides } from '../content/site'
 import { cn } from '../lib/cn'
 import { Button } from './Button'
-import { MotionField } from './MotionField'
 
 const DURATION = 8500
 
 export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [reduceMotion, setReduceMotion] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const slide = slides[index]
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const apply = () => setReduceMotion(media.matches)
+    apply()
+    media.addEventListener('change', apply)
+    return () => media.removeEventListener('change', apply)
+  }, [])
 
   useEffect(() => {
     const onVisibility = () => setPaused(document.hidden)
@@ -19,26 +28,53 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
   }, [])
 
   useEffect(() => {
+    const video = videoRef.current
+    if (!video || reduceMotion) return
+    if (paused) {
+      video.pause()
+      return
+    }
+    void video.play().catch(() => {})
+  }, [paused, reduceMotion])
+
+  useEffect(() => {
     if (paused) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (reduceMotion) return
     const timer = window.setTimeout(() => {
       setIndex((value) => (value + 1) % slides.length)
     }, DURATION)
     return () => window.clearTimeout(timer)
-  }, [index, paused])
+  }, [index, paused, reduceMotion])
 
   return (
     <section className="relative min-h-[92svh] overflow-hidden bg-navy text-white">
-      <MotionField className="absolute inset-0 h-full w-full opacity-80" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(17,24,53,0.55)_0%,rgba(17,24,53,0.78)_48%,rgba(17,24,53,0.92)_100%)]" />
-      <div className="pointer-events-none absolute -top-24 right-[-10%] size-[520px] rounded-full bg-teal/25 blur-3xl" />
-      <div className="relative mx-auto flex min-h-[92svh] w-full max-w-5xl flex-col items-center justify-center px-6 pt-36 pb-40 text-center">
-        <p className="text-[11px] font-semibold tracking-[0.22em] text-yellow uppercase">{slide.kicker}</p>
-        <h1 key={slide.id} className="animate-rise mt-5 text-[clamp(2.8rem,6.4vw,5.4rem)] text-white">
+      <div className="absolute inset-0">
+        {reduceMotion ? (
+          <img src="/hero-poster.jpg" alt="" className="h-full w-full object-cover object-[62%_center]" />
+        ) : (
+          <video
+            ref={videoRef}
+            className="h-full w-full object-cover object-[62%_center]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/hero-poster.jpg"
+            preload="auto"
+            aria-hidden="true"
+          >
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
+        )}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(17,24,53,0.86)_0%,rgba(17,24,53,0.62)_46%,rgba(17,24,53,0.38)_100%)] lg:bg-[linear-gradient(90deg,rgba(17,24,53,0.94)_0%,rgba(17,24,53,0.8)_32%,rgba(17,24,53,0.28)_58%,rgba(17,24,53,0.12)_100%)]" />
+      </div>
+      <div className="relative mx-auto flex min-h-[92svh] w-full max-w-7xl flex-col items-center justify-start px-5 pt-32 pb-44 text-center md:px-8 md:pt-28 lg:items-start lg:justify-center lg:text-left">
+        <div className="max-w-lg">
+        <h1 key={slide.id} className="animate-rise text-[clamp(2.5rem,4.4vw,4.15rem)] text-white">
           {slide.title}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">{slide.text}</p>
-        <div className="mt-8 flex flex-col items-center gap-4">
+        <p className="mt-6 text-lg leading-8 text-white/85">{slide.text}</p>
+        <div className="mt-8 flex flex-col items-center gap-4 lg:items-start">
           <Button href={slide.primary.href}>{slide.primary.label}</Button>
           <button type="button" onClick={onPlayFilm} className="inline-flex items-center gap-2 text-sm font-semibold text-white">
             <Play className="size-4" />
@@ -53,9 +89,10 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
               aria-label={item.label}
               aria-selected={itemIndex === index}
               onClick={() => setIndex(itemIndex)}
-              className={cn('h-1.5 rounded-full transition-all', itemIndex === index ? 'w-8 bg-yellow' : 'w-3 bg-white/40')}
+              className={cn('h-1.5 rounded-full transition-all', itemIndex === index ? 'w-8 bg-yellow' : 'w-3 bg-white/50')}
             />
           ))}
+        </div>
         </div>
       </div>
     </section>

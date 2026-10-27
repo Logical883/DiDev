@@ -17,12 +17,15 @@ export const company = {
 }
 
 export const nav = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Academy', href: '/academy' },
   { label: 'Consulting', href: '/consulting' },
   { label: 'Network', href: '/network' },
   { label: 'Contact', href: '/contact' },
 ] as const
+
+export const instagram = 'https://www.instagram.com/miss_mailiana/'
 
 export const slides = [
   {
@@ -271,6 +274,8 @@ export const pillars = [
     review: 'Completion, skill change and evidence of workplace application.',
   },
 ] as const
+
+export const servicesLede = 'Choose the service that matches the problem you already have.'
 
 export const services = [
   {

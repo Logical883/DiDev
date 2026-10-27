@@ -41,9 +41,11 @@ function buildMessage(fields: Fields) {
 export function ContactForm() {
   const [params] = useSearchParams()
   const initialTopic = params.get('topic') ?? ''
+  const initialEmail = params.get('email') ?? ''
   const [fields, setFields] = useState<Fields>({
     ...empty,
     topic: inquiryTopics.some((item) => item.id === initialTopic) ? initialTopic : '',
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(initialEmail) ? initialEmail : '',
   })
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({})
   const [prepared, setPrepared] = useState('')
@@ -51,8 +53,15 @@ export function ContactForm() {
 
   useEffect(() => {
     const topic = params.get('topic') ?? ''
-    if (!inquiryTopics.some((item) => item.id === topic)) return
-    setFields((current) => (current.topic === topic ? current : { ...current, topic }))
+    const email = params.get('email') ?? ''
+    const nextTopic = inquiryTopics.some((item) => item.id === topic) ? topic : ''
+    const nextEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : ''
+    if (!nextTopic && !nextEmail) return
+    setFields((current) => ({
+      ...current,
+      topic: nextTopic || current.topic,
+      email: nextEmail || current.email,
+    }))
   }, [params])
 
   const topicValid = useMemo(

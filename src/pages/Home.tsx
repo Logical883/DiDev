@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 import {
   challenges,
   divisions,
   founderQuote,
   highlights,
   services,
+  servicesLede,
 } from '../content/site'
 import { Button } from '../components/Button'
 import { Container, CtaBand } from '../components/Chrome'
@@ -108,7 +110,7 @@ export function HomePage() {
             </blockquote>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {divisions.slice(0, 2).map((division, index) => (
+            {divisions.slice(0, 2).map((division) => (
               <article key={division.name} className="bg-white shadow-[0_16px_40px_rgba(17,24,53,0.08)]">
                 <div className="flex h-40 items-center justify-center bg-mist">
                   <img src={division.logo} alt="" className="h-14 w-auto" />
@@ -117,51 +119,58 @@ export function HomePage() {
                   <h3 className="text-xl text-navy">{division.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted">{division.text}</p>
                 </div>
-                <div className="flex items-center gap-3 border-t border-line px-5 py-4">
-                  <span className="grid size-8 place-items-center rounded-full bg-navy text-xs font-semibold text-yellow">0{index + 1}</span>
-                  <Link to={division.href} className="text-sm font-semibold text-navy">Enter</Link>
-                </div>
+                <Link
+                  to={division.href}
+                  className="group flex items-center justify-between border-t border-line px-5 py-4 text-sm font-semibold text-navy"
+                >
+                  Enter
+                  <span className="grid size-9 place-items-center rounded-full border border-navy transition group-hover:bg-navy group-hover:text-yellow">
+                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  </span>
+                </Link>
               </article>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-navy py-16 text-white md:py-24">
-        <div className="pointer-events-none absolute -right-24 bottom-[-80px] size-[460px] rounded-full border border-white/10" />
-        <div className="pointer-events-none absolute right-10 bottom-10 size-[280px] rounded-full border border-white/10" />
-        <Container className="relative">
-          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-            <div className="max-w-md">
-              <h2 className="text-[clamp(2.2rem,4vw,3.6rem)] text-white">Practical work. Clear standards.</h2>
-            </div>
-            <ServiceTile service={services[0]} featured />
+      <section className="bg-navy py-20 text-white md:py-28 lg:py-32" aria-labelledby="services-heading">
+        <Container>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:gap-14">
+            <h2
+              id="services-heading"
+              className="max-w-xl text-[clamp(2.35rem,4.8vw,4.5rem)] leading-[1.02] text-white"
+            >
+              Practical work.
+              <br />
+              Clear standards.
+            </h2>
+            <p className="max-w-xs text-lg leading-8 text-white/85 lg:pb-2">{servicesLede}</p>
           </div>
-          <div className="mt-5 grid gap-5 md:grid-cols-3">
+
+          <article className="mt-16 border-l-[3px] border-yellow pl-6 md:mt-24 md:pl-10">
+            <p className="font-display text-base text-white/85">{services[0].number}</p>
+            <h3 className="mt-4 max-w-3xl text-[clamp(2rem,3.2vw,3.15rem)] text-white">{services[0].title}</h3>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">{services[0].text}</p>
+          </article>
+
+          <ul className="mt-14 border-t border-white/15 md:mt-16">
             {services.slice(1).map((service) => (
-              <ServiceTile key={service.title} service={service} />
+              <li key={service.title} className="border-b border-white/15 py-7 md:py-8">
+                <div className="grid gap-2 lg:grid-cols-[21.5rem_minmax(0,36rem)] lg:items-baseline lg:gap-x-12">
+                  <div className="flex items-baseline gap-4">
+                    <p className="shrink-0 font-display text-base text-white/80">{service.number}</p>
+                    <h3 className="text-xl leading-snug text-white md:text-2xl">{service.title}</h3>
+                  </div>
+                  <p className="max-w-xl text-base leading-7 text-white/80">{service.text}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </Container>
       </section>
 
       <CtaBand />
     </>
-  )
-}
-
-function ServiceTile({
-  service,
-  featured = false,
-}: {
-  service: (typeof services)[number]
-  featured?: boolean
-}) {
-  return (
-    <article className={cn('border p-6', featured ? 'border-yellow bg-white/10' : 'border-white/15')}>
-      <p className="text-[11px] font-semibold tracking-[0.16em] text-yellow uppercase">{service.number}</p>
-      <h3 className="mt-4 text-2xl text-white">{service.title}</h3>
-      <p className="mt-3 text-sm leading-7 text-white/70">{service.text}</p>
-    </article>
   )
 }
