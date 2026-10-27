@@ -1,7 +1,12 @@
 /**
  * Public site copy, drawn from the DiDev master brand and visual identity
  * (October 2026). Set contactEmail when a company mailbox is ready.
+ *
+ * Set pagesInDevelopment to false to show About, Academy, Consulting,
+ * Network, and Contact again. Home always stays visible.
  */
+export const pagesInDevelopment = true
+
 export const contactEmail = ''
 
 export const company = {

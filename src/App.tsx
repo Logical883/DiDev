@@ -11,6 +11,7 @@ import { ContactPage } from './pages/Contact'
 import { HomePage } from './pages/Home'
 import { NetworkPage } from './pages/Network'
 import { NotFoundPage } from './pages/NotFound'
+import { gatePage } from './components/UnderDevelopment'
 
 export default function App() {
   return (
@@ -28,11 +29,11 @@ export default function App() {
         <main id="main">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/academy" element={<AcademyPage />} />
-            <Route path="/consulting" element={<ConsultingPage />} />
-            <Route path="/network" element={<NetworkPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={gatePage(<AboutPage />)} />
+            <Route path="/academy" element={gatePage(<AcademyPage />)} />
+            <Route path="/consulting" element={gatePage(<ConsultingPage />)} />
+            <Route path="/network" element={gatePage(<NetworkPage />)} />
+            <Route path="/contact" element={gatePage(<ContactPage />)} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
