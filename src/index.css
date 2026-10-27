@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", Arial, Helvetica, sans-serif;
+  --font-display: "Manrope", Arial, Helvetica, sans-serif;
+  --color-navy: #111835;
+  --color-navy-soft: #1a2748;
+  --color-ink: #111111;
+  --color-yellow: #f8d618;
+  --color-teal: #00b894;
+  --color-mist: #e9eef2;
+  --color-paper: #f5f7f8;
+  --color-muted: #3c4a5a;
+  --color-line: #d5dee6;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7.5rem;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.042em;
+  line-height: 1.12;
+}
+
+::selection {
+  background: #f8d618;
+  color: #111835;
+}
+
+:focus-visible {
+  outline: 3px solid #f8d618;
+  outline-offset: 3px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes loader-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.marquee-track {
+  animation: marquee 42s linear infinite;
+}
+
+.progress-bar {
+  transform-origin: left center;
+  animation: bar 8.5s linear forwards;
+}
+
+.loader-line {
+  transform-origin: left center;
+  animation: loader-line 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.film-stage {
+  animation: rise 0.45s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-rise,
+  .marquee-track,
+  .progress-bar,
+  .loader-line,
+  .film-stage {
+    animation: none !important;
+  }
+
+  .progress-bar,
+  .loader-line {
+    transform: none;
+  }
+}
