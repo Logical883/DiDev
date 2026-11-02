@@ -6,6 +6,7 @@ import {
   divisions,
   founderQuote,
   highlights,
+  offers,
   services,
   servicesLede,
 } from '../content/site'
@@ -129,6 +130,27 @@ export function HomePage() {
                   </span>
                 </Link>
               </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16 md:py-20">
+        <Container>
+          <h2 className="max-w-2xl text-[clamp(2rem,4vw,3rem)] text-navy">Open a programme directly.</h2>
+          <p className="mt-4 max-w-xl text-base leading-7 text-muted">
+            These pages are the addresses a campaign can use. Each one sits inside its school.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {offers.map((offer) => (
+              <Link key={offer.slug} to={`/academy/${offer.slug}`} className="group border border-line p-5 transition hover:border-navy">
+                <p className="text-[11px] font-semibold tracking-[0.16em] text-navy uppercase">{offer.school}</p>
+                <span className="mt-3 flex items-center justify-between gap-3 text-xl text-navy">
+                  {offer.title}
+                  <ArrowRight className="size-4 transition group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+                <span className="mt-2 block text-sm leading-6 text-muted">{offer.lede}</span>
+              </Link>
             ))}
           </div>
         </Container>

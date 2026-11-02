@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Button } from './Button'
 import { cn } from '../lib/cn'
@@ -33,22 +33,80 @@ export function Eyebrow({
   )
 }
 
+const crumbLabels: Record<string, string> = {
+  about: 'About',
+  academy: 'Academy',
+  consulting: 'Consulting',
+  network: 'Network',
+  contact: 'Contact',
+  'data-foundation': 'Data Foundation',
+  'digital-marketing-incubator': 'Digital Marketing Incubator',
+  '100-days-of-data': '100 Days of Data',
+}
+
+function labelFor(segment: string) {
+  return (
+    crumbLabels[segment] ??
+    segment.replace(/-/g, ' ').replace(/^\w/, (letter) => letter.toUpperCase())
+  )
+}
+
+type Crumb = { label: string; href?: string }
+
 export function PageHero({
-  eyebrow,
   title,
   lede,
+  crumbs,
+  actions,
+  image = '/hero-poster.jpg',
 }: {
-  eyebrow: string
+  /** Kept so existing pages still compile. The hero no longer shows it. */
+  eyebrow?: string
   title: string
   lede: string
+  crumbs?: Crumb[]
+  actions?: ReactNode
+  image?: string
 }) {
+  const { pathname } = useLocation()
+  const segments = pathname.split('/').filter(Boolean)
+  const trail: Crumb[] =
+    crumbs ??
+    segments.map((segment, index) => ({
+      label: labelFor(segment),
+      href: index < segments.length - 1 ? `/${segments.slice(0, index + 1).join('/')}` : undefined,
+    }))
+
   return (
-    <section className="relative overflow-hidden bg-navy pt-28 pb-20 text-white md:pt-36 md:pb-28">
-      <div className="pointer-events-none absolute -top-24 right-0 size-[480px] rounded-full bg-teal/20 blur-3xl" />
-      <Container className="relative">
-        <p className="text-[11px] font-semibold tracking-[0.2em] text-yellow uppercase">{eyebrow}</p>
-        <h1 className="mt-5 max-w-4xl text-[clamp(2.6rem,6vw,5.2rem)] text-white">{title}</h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">{lede}</p>
+    <section className="relative isolate overflow-hidden bg-navy text-white">
+      <img
+        src={image}
+        alt=""
+        width={1280}
+        height={720}
+        className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%]"
+      />
+      <div className="absolute inset-0 -z-10 bg-navy/55" aria-hidden="true" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy/95 via-navy/55 to-transparent" aria-hidden="true" />
+
+      <Container className="relative pt-32 pb-16 md:pt-40 md:pb-24">
+        <nav aria-label="Breadcrumb" className="text-sm font-semibold tracking-[0.06em] text-white/80 uppercase">
+          <Link to="/" className="hover:text-yellow">Home</Link>
+          {trail.map((crumb, index) => (
+            <span key={`${crumb.label}-${index}`}>
+              <span className="mx-2 text-white/50" aria-hidden="true">/</span>
+              {crumb.href ? (
+                <Link to={crumb.href} className="hover:text-yellow">{crumb.label}</Link>
+              ) : (
+                <span aria-current="page" className="text-white/60">{crumb.label}</span>
+              )}
+            </span>
+          ))}
+        </nav>
+
+        <h1 className="mt-10 max-w-3xl text-[clamp(2.4rem,5.2vw,4.4rem)] leading-[1.04] text-white">{title}</h1>
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-white/80">{lede}</p>
+        {actions ? <div className="mt-9 flex flex-wrap gap-3">{actions}</div> : null}
       </Container>
     </section>
   )

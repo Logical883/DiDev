@@ -6,18 +6,21 @@ import { Loader } from './components/Loader'
 import { ScrollToTop } from './lib/page'
 import { AboutPage } from './pages/About'
 import { AcademyPage } from './pages/Academy'
+import { AcademyProgrammePage } from './pages/AcademyProgramme'
 import { ConsultingPage } from './pages/Consulting'
 import { ContactPage } from './pages/Contact'
 import { HomePage } from './pages/Home'
 import { NetworkPage } from './pages/Network'
 import { NotFoundPage } from './pages/NotFound'
 import { gatePage } from './components/UnderDevelopment'
+import { ScrollProgress } from './components/ScrollProgress'
 
 export default function App() {
   return (
     <BrowserRouter>
       <FilmProvider>
         <ScrollToTop />
+        <ScrollProgress />
         <a
           href="#main"
           className="absolute top-3 left-3 z-[100] -translate-y-24 bg-yellow px-4 py-3 text-sm font-semibold text-navy focus:translate-y-0"
@@ -31,6 +34,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={gatePage(<AboutPage />)} />
             <Route path="/academy" element={gatePage(<AcademyPage />)} />
+            <Route path="/academy/:slug" element={gatePage(<AcademyProgrammePage />)} />
             <Route path="/consulting" element={gatePage(<ConsultingPage />)} />
             <Route path="/network" element={gatePage(<NetworkPage />)} />
             <Route path="/contact" element={gatePage(<ContactPage />)} />

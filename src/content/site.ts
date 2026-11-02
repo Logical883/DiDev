@@ -5,7 +5,7 @@
  * Set pagesInDevelopment to false to show About, Academy, Consulting,
  * Network, and Contact again. Home always stays visible.
  */
-export const pagesInDevelopment = true
+export const pagesInDevelopment = false
 
 export const contactEmail = ''
 
@@ -126,7 +126,7 @@ export const divisions = [
     href: '/academy',
     logo: '/brand/logo-academy.png',
     kicker: 'Education',
-    text: 'Courses, projects, portfolios and practical programmes. This is where The Digital College continues, with learning designed to be demonstrated.',
+    text: 'Data School and Digital Marketing School. Each programme has its own page, and The Digital College continues here.',
   },
   {
     name: 'DiDev Consulting',
@@ -222,27 +222,104 @@ export const differentiators = [
   { title: 'Progress demonstrated', text: 'Documented outputs, defensible measures and stated limitations.' },
 ] as const
 
-export const programmes = [
+export const schools = [
   {
-    number: '01',
-    title: 'Data Foundations',
-    text: 'A guided pathway through Excel and data analysis, SQL and Power BI, with project milestones and a portfolio review.',
-    outputs: ['Documented project', 'Skill demonstration', 'Feedback'],
-    tags: ['Excel', 'SQL', 'Power BI', 'Portfolio'],
+    name: 'Data School',
+    text: 'Data programmes live here. A new data course joins this school, with its own page.',
+    programmes: [
+      {
+        slug: 'data-foundation',
+        title: 'Data Foundation',
+        text: 'Excel, data analysis, SQL and Power BI, with projects and a portfolio review.',
+      },
+    ],
   },
   {
-    number: '02',
-    title: 'Professional skill sprints',
-    text: 'Short, practical applications for people who are already in work and need a tool or method they can use immediately.',
-    outputs: ['Reusable work artifact', 'Implementation notes'],
-    tags: ['Workplace practice', 'Applied tools'],
+    name: 'Digital Marketing School',
+    text: 'Marketing programmes live here. A new marketing course joins this school, with its own page.',
+    programmes: [
+      {
+        slug: 'digital-marketing-incubator',
+        title: 'Digital Marketing Incubator',
+        text: 'A practical path for planning and running digital marketing work you can explain.',
+      },
+    ],
+  },
+] as const
+
+export const comingSchools = ['AI School', 'Transformation School'] as const
+
+export const offers = [
+  {
+    slug: 'data-foundation',
+    school: 'Data School',
+    title: 'Data Foundation',
+    lede: 'A guided start in Excel, data analysis, SQL and Power BI. You leave with work you can show and explain.',
+    summary:
+      'Data Foundation moves from The Digital College into DiDev Academy. It is the first programme in the Data School, and this page is the address a campaign can open.',
+    practise: [
+      'Excel and a dataset that needs cleaning',
+      'SQL questions against a realistic table',
+      'A Power BI view someone else can read',
+      'A short portfolio review with feedback',
+    ],
+    forWhom: 'Students, career changers and working professionals who need a structured beginning rather than a pile of tutorials.',
+    leavesWith: 'A documented project, feedback, and a way to explain what you did. DiDev does not promise a job, a salary or instant mastery.',
+    enquire: '/contact?topic=data-foundation',
   },
   {
-    number: '03',
-    title: 'Institutional cohorts',
-    text: 'Tailored programmes for companies, universities and other institutions, including assessment and a follow-up on application.',
-    outputs: ['Cohort curriculum', 'Assessment', 'Follow-up actions'],
-    tags: ['Corporate training', 'Institutions'],
+    slug: 'digital-marketing-incubator',
+    school: 'Digital Marketing School',
+    title: 'Digital Marketing Incubator',
+    lede: 'A practical programme for people who want to plan, run and explain digital marketing work.',
+    summary:
+      'The Digital Marketing Incubator sits in the Digital Marketing School. Length, fee and the session plan are confirmed for each intake. This page is where an ad can land.',
+    practise: [
+      'A brief that names the audience and the offer',
+      'A simple plan for a channel you can actually run',
+      'Work you can show, not only a slide of tactics',
+    ],
+    forWhom: 'People moving from The Digital College, and anyone who wants marketing practice with feedback.',
+    leavesWith: 'A piece of marketing work you can walk through. The intake details are confirmed before anyone enrols.',
+    enquire: '/contact?topic=marketing-incubator',
+  },
+  {
+    slug: '100-days-of-data',
+    school: 'Insights and resources',
+    title: '100 Days of Data',
+    lede: 'A public practice series from The Digital College, now part of DiDev Academy.',
+    summary:
+      'One hundred days of beginner-friendly data practice, written for African learning contexts. The path runs through analysis, dashboards, responsible use of AI, and a capstone you can present. Teaching examples are fictional. They are not client results.',
+    practise: [
+      'An everyday situation before the technical idea',
+      'Dashboards and business questions',
+      'AI used as a draft that a person still checks',
+      'A capstone you can explain',
+    ],
+    forWhom: 'Anyone building a data habit in public, including people who want the playlist and the daily path in one place.',
+    leavesWith: 'A practice record and a capstone. Playlists are published with the series. This page is the stable address for the campaign.',
+    enquire: '/contact?topic=hundred-days',
+  },
+] as const
+
+export const liveSessions = [
+  {
+    when: '30 January 2027',
+    access: 'Free',
+    place: 'In person',
+    text: 'Last Saturday of January. A free Data Foundation Live class.',
+  },
+  {
+    when: '27 February 2027',
+    access: 'Free',
+    place: 'In person',
+    text: 'Last Saturday of February. A free Data Foundation Live class.',
+  },
+  {
+    when: 'March 2027',
+    access: 'Paid',
+    place: 'In person',
+    text: 'A paid class. A certificate is issued at the end. The day is confirmed on this page before the session.',
   },
 ] as const
 
@@ -369,6 +446,10 @@ export const networkActivities = [
 
 export const inquiryTopics = [
   { id: 'academy', label: 'Academy pathway or enrolment' },
+  { id: 'data-foundation', label: 'Data Foundation' },
+  { id: 'marketing-incubator', label: 'Digital Marketing Incubator' },
+  { id: 'hundred-days', label: '100 Days of Data' },
+  { id: 'network-live', label: 'Data Foundation Live' },
   { id: 'training', label: 'Corporate or institutional training' },
   { id: 'transformation', label: 'Digital transformation advisory' },
   { id: 'data', label: 'Data systems and decision intelligence' },
@@ -416,3 +497,177 @@ export const founderQuote =
 
 export const story =
   'DiDev grew from a direct observation: access to digital learning does not automatically create practical capability, just as access to technology does not automatically transform a business. The educational roots include 100 Days of Data, live Data Foundations teaching and The Digital College. The wider ambition joins project-based learning with the people, workflows and systems that help organizations improve.'
+
+
+  /**
+ * Academy structure (voice notes, Oct 2026). Fees, payment links, start
+ * dates and the 100 Days playlist link are intentionally blank until
+ * confirmed. Pages show "To be confirmed" for any empty value.
+ */
+export const tbc = 'To be confirmed'
+
+export const academySchools = [
+  {
+    id: 'data',
+    name: 'Data School',
+    status: 'open',
+    text: 'Practical data skills, from a free first step to a guided programme with project milestones.',
+    programmes: [
+      {
+        title: 'Data Foundation',
+        href: '/academy/data-foundation',
+        text: 'A guided pathway through Excel, SQL and Power BI, with project milestones and a portfolio review.',
+      },
+      {
+        title: '100 Days of Data',
+        href: '/academy/100-days-of-data',
+        text: 'The free way in, taught by Miss Mailiana. Start here if you are not sure where to begin.',
+      },
+    ],
+  },
+  {
+    id: 'digital-marketing',
+    name: 'Digital Marketing School',
+    status: 'open',
+    text: 'Applied digital marketing, learned by running real work rather than reading about it.',
+    programmes: [
+      {
+        title: 'Digital Marketing Incubator',
+        href: '/academy/digital-marketing-incubator',
+        text: 'A hands-on programme for building a brand, a content plan and a campaign you can show.',
+      },
+    ],
+  },
+  {
+    id: 'ai',
+    name: 'AI School',
+    status: 'planned',
+    text: 'Planned. No programme is open yet.',
+    programmes: [],
+  },
+  {
+    id: 'transformation',
+    name: 'Transformation School',
+    status: 'planned',
+    text: 'Planned. No programme is open yet.',
+    programmes: [],
+  },
+] as const
+
+export type ProgrammePage = {
+  slug: string
+  school: string
+  title: string
+  lede: string
+  summary: string
+  forWhom: readonly string[]
+  learn: readonly string[]
+  tags: readonly string[]
+  facts: readonly { label: string; value: string }[]
+  cta: { label: string; href: string }
+  note: string
+}
+
+export const programmePages: Record<string, ProgrammePage> = {
+  'data-foundation': {
+    slug: 'data-foundation',
+    school: 'Data School',
+    title: 'Data Foundation',
+    lede: 'Learn the data tools people use at work, by using them on a real project from the first week.',
+    summary:
+      'A guided pathway through Excel and data analysis, SQL and Power BI. Each stage ends in a milestone, and the programme ends in a portfolio review with feedback.',
+    forWhom: ['Students and graduates', 'Career changers', 'Working professionals who handle data'],
+    learn: [
+      'Clean and organise a dataset in Excel',
+      'Write SQL queries to answer a question',
+      'Build and explain a Power BI dashboard',
+      'Present a documented project and take feedback on it',
+    ],
+    tags: ['Excel', 'SQL', 'Power BI', 'Portfolio'],
+    facts: [
+      { label: 'Format', value: 'Guided, online' },
+      { label: 'Fee', value: tbc },
+      { label: 'Next start', value: tbc },
+    ],
+    cta: { label: 'Enquire about Data Foundation', href: '/contact?topic=academy' },
+    note: 'Enrolment details are being finalised. Send an enquiry and we will reply with the next steps.',
+  },
+  'digital-marketing-incubator': {
+    slug: 'digital-marketing-incubator',
+    school: 'Digital Marketing School',
+    title: 'Digital Marketing Incubator',
+    lede: 'Build a brand, a content plan and a campaign, with feedback at each step.',
+    summary:
+      'A practical programme where you work on your own brand or business, and finish with work you can show to a client or an employer.',
+    forWhom: ['Founders and small business owners', 'Content creators', 'Students moving into marketing'],
+    learn: [
+      'Define a brand and the audience it serves',
+      'Plan content that supports a goal',
+      'Turn content into a campaign',
+      'Review results and decide what to change',
+    ],
+    tags: ['Brand', 'Content plan', 'Campaigns'],
+    facts: [
+      { label: 'Format', value: 'Guided, online' },
+      { label: 'Fee', value: tbc },
+      { label: 'Next start', value: tbc },
+    ],
+    cta: { label: 'Enquire about the Incubator', href: '/contact?topic=academy' },
+    note: 'Length and enrolment details are being finalised. Send an enquiry and we will reply with the next steps.',
+  },
+  '100-days-of-data': {
+    slug: '100-days-of-data',
+    school: 'Data School',
+    title: '100 Days of Data',
+    lede: 'A free way into data, taught by Miss Mailiana. Learn a little each day and see whether it suits you.',
+    summary:
+      'The free entry point to Data School. It is where DiDev’s teaching began, and it leads naturally into Data Foundation for people who want guidance and feedback.',
+    forWhom: ['Complete beginners', 'Anyone curious about data work', 'People deciding on a first programme'],
+    learn: [
+      'Core data ideas in small daily steps',
+      'The vocabulary used in data roles',
+      'Whether Data Foundation is the right next step',
+    ],
+    tags: ['Free', 'Beginner'],
+    facts: [
+      { label: 'Cost', value: 'Free' },
+      { label: 'Format', value: 'Self-paced playlist' },
+      { label: 'Playlist link', value: tbc },
+    ],
+    cta: { label: 'Ask for the playlist', href: '/contact?topic=academy' },
+    note: 'Automatic sign-up and delivery of the playlist is not live yet. For now, send us a message and we will respond.',
+  },
+}
+
+export const networkProgramme = {
+  name: 'Data Foundation Live',
+  text: 'In-person classes that follow the online Data Foundation teaching, held on the last Saturday of the month, with live sessions on YouTube in between.',
+  sessions: [
+    {
+      date: '30 January 2027',
+      day: 'Last Saturday',
+      kind: 'Free',
+      text: 'An in-person class, open to everyone.',
+      paid: false,
+    },
+    {
+      date: '27 February 2027',
+      day: 'Last Saturday',
+      kind: 'Free',
+      text: 'An in-person class, open to everyone.',
+      paid: false,
+    },
+    {
+      date: 'March 2027',
+      day: 'Day to be confirmed',
+      kind: 'Paid, with certificate',
+      text: 'The paid in-person class. Participants receive a certificate at the end.',
+      paid: true,
+    },
+  ],
+  between: [
+    { title: 'Live on YouTube', text: 'At least three live sessions every month.' },
+    { title: 'Community', text: 'A community for learners to practise, ask questions and share work between the dates.' },
+  ],
+  note: 'Venue, fees and the March date will be published here once confirmed.',
+} as const

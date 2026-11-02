@@ -1,4 +1,4 @@
-import { networkActivities } from '../content/site'
+import { networkActivities, networkProgramme } from '../content/site'
 import { Button } from '../components/Button'
 import { Container, CtaBand, Eyebrow, PageHero } from '../components/Chrome'
 import { usePageMeta } from '../lib/page'
@@ -21,6 +21,12 @@ export function NetworkPage() {
         eyebrow="DiDev Network"
         title="Progress is stronger together."
         lede="Events, peer learning and partnerships for people and institutions who want digital capability to travel further than a single classroom."
+        actions={
+          <>
+            <Button href="/contact?topic=network">Propose a partnership</Button>
+            <Button href="#calendar" variant="ghost-light">See the 2027 calendar</Button>
+          </>
+        }
       />
 
       <section className="py-20 md:py-28">
@@ -37,6 +43,49 @@ export function NetworkPage() {
               It is where learners, practitioners, universities, companies and community organizations can meet around practical digital work. The programme expands as the capacity to host it well expands.
             </p>
             <Button href="/contact?topic=network" variant="navy">Propose a partnership</Button>
+          </div>
+        </Container>
+      </section>
+
+      <section id="calendar" className="bg-navy py-20 text-white md:py-28">
+        <Container>
+          <Eyebrow light>2027 calendar</Eyebrow>
+          <h2 className="mt-4 max-w-3xl text-[clamp(2rem,4vw,3.3rem)] text-white">{networkProgramme.name}</h2>
+          <p className="mt-4 max-w-2xl text-base leading-8 text-white/75">{networkProgramme.text}</p>
+
+          <ol className="mt-12 divide-y divide-white/15 border-y border-white/15">
+            {networkProgramme.sessions.map((session) => (
+              <li key={session.date} className="grid gap-3 py-7 md:grid-cols-[minmax(0,17rem)_1fr_auto] md:items-center md:gap-8">
+                <div>
+                  <p className="font-display text-2xl font-bold text-white">{session.date}</p>
+                  <p className="mt-1 text-sm text-white/70">{session.day}</p>
+                </div>
+                <p className="max-w-xl text-sm leading-7 text-white/75">{session.text}</p>
+                <span
+                  className={
+                    session.paid
+                      ? 'w-fit bg-yellow px-3 py-1.5 text-xs font-semibold text-navy'
+                      : 'w-fit border border-white/35 px-3 py-1.5 text-xs font-semibold text-white'
+                  }
+                >
+                  {session.kind}
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {networkProgramme.between.map((item) => (
+              <article key={item.title} className="border border-white/15 p-6">
+                <h3 className="text-xl text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-white/75">{item.text}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-xl text-sm leading-7 text-white/70">{networkProgramme.note}</p>
+            <Button href="/contact?topic=network">Ask about a session</Button>
           </div>
         </Container>
       </section>

@@ -1,13 +1,9 @@
-import { company, conversations, differentiators, founderQuote, profile, story, values } from '../content/site'
+import { conversations, differentiators, founderQuote, profile, story, values } from '../content/site'
 import { Button } from '../components/Button'
 import { Container, CtaBand, Eyebrow, PageHero } from '../components/Chrome'
+import { FounderCard } from '../components/FounderCard'
+import { PurposeColumns } from '../components/PurposeColumns'
 import { usePageMeta } from '../lib/page'
-
-const principles = [
-  { title: 'Mission', text: 'To unlock human and organizational potential through accessible, practical technology education and digital transformation.' },
-  { title: 'Vision', text: 'To become one of Africa’s most trusted technology education and digital transformation companies, developing competitive talent and lasting institutional capability.' },
-  { title: 'Purpose', text: 'To make digital opportunity more accessible, and to help people and organizations turn potential into progress.' },
-]
 
 export function AboutPage() {
   usePageMeta(
@@ -18,9 +14,14 @@ export function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow={company.legal}
         title="Practical skills. Smarter systems. Meaningful impact."
         lede="DiDev is an African-founded company for people who need digital capability they can use, and for organizations that need technology to change the work."
+        actions={
+          <>
+            <Button href="#founder">Meet the founder</Button>
+            <Button href="/contact" variant="ghost-light">Contact us</Button>
+          </>
+        }
       />
 
       <section className="py-20 md:py-28">
@@ -36,33 +37,18 @@ export function AboutPage() {
         </Container>
       </section>
 
-      <section className="bg-white py-20 md:py-28">
-        <Container className="grid gap-5 md:grid-cols-3">
-          {principles.map((item) => (
-            <article key={item.title} className="border-t-4 border-yellow bg-paper p-7">
-              <h2 className="text-2xl text-navy">{item.title}</h2>
-              <p className="mt-4 text-sm leading-7 text-muted">{item.text}</p>
-            </article>
-          ))}
-        </Container>
-      </section>
+      <PurposeColumns />
 
       <section className="py-20 md:py-28" id="founder">
         <Container className="grid items-center gap-12 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="bg-mist px-8 py-14 text-center">
-            <img src="/brand/logo-icon.png" alt="" className="mx-auto h-36 w-auto" />
-            <p className="mt-8 text-[11px] font-semibold tracking-[0.18em] text-navy uppercase">
-              {company.founder}
-            </p>
-            <p className="mt-2 text-sm text-muted">Founder</p>
-          </div>
+          <FounderCard />
           <div>
             <Eyebrow>Founder</Eyebrow>
             <h2 className="mt-4 text-[clamp(2rem,4vw,3.3rem)] text-navy">Grounded in teaching. Built for application.</h2>
             <p className="mt-5 leading-8 text-muted">
               The company grew from 100 Days of Data, live Data Foundations sessions and The Digital College, alongside experience of how slowly technology is absorbed inside real operations. DiDev is the broader house around that work.
             </p>
-            <blockquote className="mt-6 border-l-4 border-yellow pl-5 text-xl leading-8 text-navy">
+            <blockquote className="mt-6 text-xl leading-8 text-navy">
               “{founderQuote}”
             </blockquote>
             <p className="mt-4 text-sm text-muted">Miss Mailiana, Founder</p>

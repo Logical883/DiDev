@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUp, Mail, MapPin } from 'lucide-react'
+import { company, instagram } from '../content/site'
 
 function InstagramMark({ className }: { className?: string }) {
   return (
@@ -11,8 +12,6 @@ function InstagramMark({ className }: { className?: string }) {
     </svg>
   )
 }
-import { company, instagram } from '../content/site'
-
 const information = [
   { label: 'About us', href: '/about' },
   { label: 'Academy', href: '/academy' },
@@ -24,7 +23,10 @@ const information = [
 const helpful = [
   { label: 'Founder', href: '/about#founder' },
   { label: 'Speaking', href: '/about#speaking' },
-  { label: 'Academy programmes', href: '/academy' },
+  { label: 'Data Foundation', href: '/academy/data-foundation' },
+  { label: 'Digital Marketing Incubator', href: '/academy/digital-marketing-incubator' },
+  { label: '100 Days of Data', href: '/academy/100-days-of-data' },
+  { label: 'Data Foundation Live', href: '/network' },
   { label: 'Consulting services', href: '/consulting' },
   { label: 'Start a conversation', href: '/contact' },
 ]

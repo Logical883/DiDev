@@ -16,6 +16,12 @@ export function ConsultingPage() {
         eyebrow="DiDev Consulting"
         title="Make technology work for the organization."
         lede="Strategy, data, responsible AI and workforce capability. Scoped around the work that needs to change, then taught so people can carry it."
+        actions={
+          <>
+            <Button href="/contact?topic=transformation">Discuss a project</Button>
+            <Button href="#services" variant="ghost-light">See the services</Button>
+          </>
+        }
       />
 
       <section className="bg-white py-16">
@@ -65,7 +71,7 @@ export function ConsultingPage() {
         </Container>
       </section>
 
-      <section className="bg-mist py-20 md:py-24">
+      <section id="services" className="bg-mist py-20 md:py-24">
         <Container>
           <div className="grid gap-5 md:grid-cols-2">
             {services.map((service) => (
