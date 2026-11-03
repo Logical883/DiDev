@@ -215,7 +215,7 @@ export const values = [
 ] as const
 
 export const differentiators = [
-  { title: 'Practice before theory', text: 'Assignments, realistic data and work products people can explain.' },
+  { title: 'Practice with theory', text: 'Assignments, realistic data and work products people can explain.' },
   { title: 'Learning connected to outcomes', text: 'Portfolios, workflow improvements and observable progress.' },
   { title: 'African context, global standards', text: 'Local relevance with professional quality that travels.' },
   { title: 'People and organizations together', text: 'Talent development and institutional capability in one house.' },
