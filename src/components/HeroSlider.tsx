@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Play } from 'lucide-react'
 import { slides } from '../content/site'
 import { cn } from '../lib/cn'
@@ -6,11 +6,26 @@ import { Button } from './Button'
 
 const DURATION = 8500
 
+/** Hero photos, shown in order. Adjust `position` if a crop cuts someone off. */
+const photos = [
+  { src: '/brand/IMG_6273.jpeg', position: '62% 30%' },
+  { src: '/brand/IMG_3316.jpg', position: '62% 30%' },
+  { src: '/brand/FO8A9940.jpeg', position: '62% 30%' },
+]
+
+const motion = `
+@keyframes hero-drift {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to { transform: scale(1.1) translate3d(-1.5%, -1%, 0); }
+}
+.hero-photo { animation: hero-drift 16s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .hero-photo { animation: none; } }
+`
+
 export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const slide = slides[index]
 
   useEffect(() => {
@@ -28,16 +43,6 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
   }, [])
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video || reduceMotion) return
-    if (paused) {
-      video.pause()
-      return
-    }
-    void video.play().catch(() => {})
-  }, [paused, reduceMotion])
-
-  useEffect(() => {
     if (paused) return
     if (reduceMotion) return
     const timer = window.setTimeout(() => {
@@ -49,23 +54,21 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
   return (
     <section className="relative min-h-[92svh] overflow-hidden bg-navy text-white">
       <div className="absolute inset-0">
-        {reduceMotion ? (
-          <img src="/hero-poster.jpg" alt="" className="h-full w-full object-cover object-[62%_center]" />
-        ) : (
-          <video
-            ref={videoRef}
-            className="h-full w-full object-cover object-[62%_center]"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/hero-poster.jpg"
-            preload="auto"
+        <style>{motion}</style>
+        {photos.map((photo, photoIndex) => (
+          <img
+            key={photo.src}
+            src={photo.src}
+            alt=""
             aria-hidden="true"
-          >
-            <source src="/hero.mp4" type="video/mp4" />
-          </video>
-        )}
+            decoding="async"
+            style={{ objectPosition: photo.position }}
+            className={cn(
+              'hero-photo absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-in-out',
+              photoIndex === index % photos.length ? 'opacity-100' : 'opacity-0',
+            )}
+          />
+        ))}
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(17,24,53,0.86)_0%,rgba(17,24,53,0.62)_46%,rgba(17,24,53,0.38)_100%)] lg:bg-[linear-gradient(90deg,rgba(17,24,53,0.94)_0%,rgba(17,24,53,0.8)_32%,rgba(17,24,53,0.28)_58%,rgba(17,24,53,0.12)_100%)]" />
       </div>
       <div className="relative mx-auto flex min-h-[92svh] w-full max-w-7xl flex-col items-center justify-start px-5 pt-32 pb-44 text-center md:px-8 md:pt-28 lg:items-start lg:justify-center lg:text-left">

@@ -17,6 +17,8 @@ import { MarkIcon, type IconName } from '../components/Icons'
 import { useFilm } from '../components/FilmContext'
 import { cn } from '../lib/cn'
 import { usePageMeta } from '../lib/page'
+import { WhyVisual } from '../components/WhyVisual'
+import { DivisionMedia } from '../components/DivisionMedia'
 
 const gapTabs = ['Strategy', 'Skills', 'Decisions']
 
@@ -77,13 +79,7 @@ export function HomePage() {
             ))}
           </div>
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-2">
-            <div className="relative min-h-[320px] bg-mist">
-              <div className="absolute top-8 left-8 h-48 w-[70%] bg-navy" />
-              <div className="absolute right-8 bottom-8 h-40 w-[55%] bg-white shadow-[0_20px_50px_rgba(17,24,53,0.15)]">
-                <img src="/brand/logo-icon.png" alt="" className="h-full w-full object-contain p-6" />
-              </div>
-              <div className="absolute bottom-16 left-16 h-24 w-40 bg-yellow" />
-            </div>
+            <WhyVisual index={gap} />
             <div>
               <p className="text-[11px] font-semibold tracking-[0.18em] text-navy uppercase">{activeGap.number}</p>
               <h3 className="mt-3 text-3xl text-navy">{activeGap.title}</h3>
@@ -113,9 +109,7 @@ export function HomePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {divisions.slice(0, 2).map((division) => (
               <article key={division.name} className="bg-white shadow-[0_16px_40px_rgba(17,24,53,0.08)]">
-                <div className="flex h-40 items-center justify-center bg-mist">
-                  <img src={division.logo} alt="" className="h-14 w-auto" />
-                </div>
+                <DivisionMedia name={division.name} logo={division.logo} />
                 <div className="p-5">
                   <h3 className="text-xl text-navy">{division.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted">{division.text}</p>

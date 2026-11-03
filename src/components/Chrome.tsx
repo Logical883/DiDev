@@ -53,12 +53,25 @@ function labelFor(segment: string) {
 
 type Crumb = { label: string; href?: string }
 
+/** Hero photo per page, from public/brand. Tune `position` if a crop cuts someone off. */
+const heroPhotos: Record<string, { src: string; position: string }> = {
+  about: { src: '/brand/9H7A2782.jpg', position: '50% 30%' },
+  academy: { src: '/brand/9H7A2697.jpg', position: '50% 30%' },
+  consulting: { src: '/brand/IMG_7023.jpeg', position: '50% 30%' },
+  network: { src: '/brand/gemini-edited-1765231859644.png', position: '50% 30%' },
+  contact: { src: '/brand/IMG_6273.jpeg', position: '50% 30%' },
+  'data-foundation': { src: '/brand/IMG_3316.jpg', position: '50% 30%' },
+  'digital-marketing-incubator': { src: '/brand/FO8A9940.jpeg', position: '50% 30%' },
+  '100-days-of-data': { src: '/brand/9H7A2782.jpg', position: '50% 30%' },
+}
+const fallbackPhoto = { src: '/hero-poster.jpg', position: '50% 30%' }
+
 export function PageHero({
   title,
   lede,
   crumbs,
   actions,
-  image = '/hero-poster.jpg',
+  image,
 }: {
   /** Kept so existing pages still compile. The hero no longer shows it. */
   eyebrow?: string
@@ -70,6 +83,9 @@ export function PageHero({
 }) {
   const { pathname } = useLocation()
   const segments = pathname.split('/').filter(Boolean)
+  const photo = image
+    ? { src: image, position: '50% 30%' }
+    : (heroPhotos[segments[segments.length - 1]] ?? heroPhotos[segments[0]] ?? fallbackPhoto)
   const trail: Crumb[] =
     crumbs ??
     segments.map((segment, index) => ({
@@ -80,11 +96,11 @@ export function PageHero({
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white">
       <img
-        src={image}
+        src={photo.src}
         alt=""
-        width={1280}
-        height={720}
-        className="absolute inset-0 -z-20 size-full object-cover object-[50%_30%]"
+        decoding="async"
+        style={{ objectPosition: photo.position }}
+        className="absolute inset-0 -z-20 size-full object-cover"
       />
       <div className="absolute inset-0 -z-10 bg-navy/55" aria-hidden="true" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy/95 via-navy/55 to-transparent" aria-hidden="true" />

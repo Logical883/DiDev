@@ -137,7 +137,7 @@ export function Footer() {
           >
             <InstagramMark className="size-4" />
           </a>
-          <p className="text-xs text-white/55">© {new Date().getFullYear()} DiDev LTD. All rights reserved.</p>
+          <p className="text-xs text-white/55">© {new Date().getFullYear()} Mailiana-DiDev LTD. All rights reserved.</p>
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
