@@ -468,26 +468,8 @@ export const timelines = [
   'Exploring options',
 ] as const
 
-export const filmChapters = [
-  {
-    id: 'learn',
-    kicker: 'Chapter 01',
-    title: 'Learn',
-    text: 'Access to a course is not the same as capability. DiDev starts with practice: clear instruction, real tasks and feedback.',
-  },
-  {
-    id: 'build',
-    kicker: 'Chapter 02',
-    title: 'Build',
-    text: 'Learners leave with work they can show. Organizations leave with workflows, reporting and skills that fit the job.',
-  },
-  {
-    id: 'transform',
-    kicker: 'Chapter 03',
-    title: 'Transform',
-    text: 'Progress is people and systems moving together. That is the standard for a cohort, a workshop and a consulting engagement.',
-  },
-] as const
+/** YouTube video that plays in the brand film window on the home page. */
+export const brandFilmYouTubeId = 'IBbIi2NRa1I'
 
 export const profile =
   'DiDev, operating under Mailiana-DiDev LTD, equips individuals with practical digital skills and helps businesses and institutions strengthen their digital capabilities. Through technology education, talent development, corporate training and digital transformation services, DiDev connects learning with practical application. Founded in Africa with a global outlook, the company exists to unlock potential through technology.'

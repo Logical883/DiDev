@@ -64,34 +64,77 @@ export function Header() {
 
         <button
           type="button"
-          className="grid size-11 place-items-center rounded-[3px] border border-line text-navy transition hover:border-navy hover:bg-mist lg:hidden"
+          className="relative grid size-11 place-items-center rounded-[3px] border border-line text-navy transition hover:border-navy hover:bg-mist lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          <Menu
+            aria-hidden="true"
+            className={cn(
+              'absolute size-5 transition-all duration-300 ease-out motion-reduce:transition-none',
+              open ? 'rotate-90 scale-50 opacity-0' : 'rotate-0 scale-100 opacity-100',
+            )}
+          />
+          <X
+            aria-hidden="true"
+            className={cn(
+              'absolute size-5 transition-all duration-300 ease-out motion-reduce:transition-none',
+              open ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0',
+            )}
+          />
           <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
         </button>
       </div>
 
-      <div id="mobile-nav" className={cn('border-t border-line bg-white lg:hidden', open ? 'block' : 'hidden')}>
-        <nav className="mx-auto flex max-h-[calc(100svh-90px)] w-full max-w-7xl flex-col overflow-auto px-5 py-2 md:px-8" aria-label="Mobile">
-          {nav.map((item) => (
-            <NavLink
-              key={item.href}
-              to={item.href}
-              end={item.href === '/'}
-              className={({ isActive }) =>
-                cn('border-b py-4 font-display text-3xl text-navy transition hover:pl-2', isActive ? 'border-yellow' : 'border-line')
-              }
+      {/* Dimmed page behind the open menu; tap to close. */}
+      <div
+        aria-hidden="true"
+        onClick={() => setOpen(false)}
+        className={cn(
+          'fixed inset-x-0 top-[78px] bottom-0 -z-10 bg-navy/40 backdrop-blur-[2px] transition-opacity duration-500 ease-out motion-reduce:transition-none lg:hidden',
+          open ? 'opacity-100' : 'pointer-events-none opacity-0',
+        )}
+      />
+
+      <div
+        id="mobile-nav"
+        inert={!open}
+        className={cn(
+          'grid bg-white transition-[grid-template-rows,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none lg:hidden',
+          open ? 'grid-rows-[1fr] border-t border-line' : 'grid-rows-[0fr] border-t border-transparent',
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <nav className="mx-auto flex max-h-[calc(100svh-90px)] w-full max-w-7xl flex-col overflow-auto px-5 py-2 md:px-8" aria-label="Mobile">
+            {nav.map((item, index) => (
+              <NavLink
+                key={item.href}
+                to={item.href}
+                end={item.href === '/'}
+                style={{ transitionDelay: open ? `${120 + index * 55}ms` : '0ms' }}
+                className={({ isActive }) =>
+                  cn(
+                    'border-b py-4 font-display text-3xl text-navy transition-[opacity,transform,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:pl-2 motion-reduce:transition-none',
+                    isActive ? 'border-yellow' : 'border-line',
+                    open ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0',
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <div
+              style={{ transitionDelay: open ? `${120 + nav.length * 55}ms` : '0ms' }}
+              className={cn(
+                'py-6 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
+                open ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0',
+              )}
             >
-              {item.label}
-            </NavLink>
-          ))}
-          <div className="py-6">
-            <Button href="/contact">Start a conversation</Button>
-          </div>
-        </nav>
+              <Button href="/contact">Start a conversation</Button>
+            </div>
+          </nav>
+        </div>
       </div>
     </header>
   )
