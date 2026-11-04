@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Globe } from 'lucide-react'
 import { instagram } from '../content/site'
 import { cn } from '../lib/cn'
 
@@ -21,7 +21,7 @@ function InstagramMark({ className }: { className?: string }) {
   )
 }
 
-type Social = { label: string; href: string; kind: 'linkedin' | 'instagram' }
+type Social = { label: string; href: string; kind: 'linkedin' | 'instagram' | 'website' }
 
 type Member = {
   name: string
@@ -41,7 +41,10 @@ const team: Member[] = [
     role: 'Head of Technology & Digital Operations',
     photo: '/brand/Albert_Pic.jpg',
     position: '50% 20%',
-    socials: [],
+    socials: [
+      { label: 'Agyapong Albert Yeboah on LinkedIn', href: 'https://www.linkedin.com/in/agyapong-albert-yeboah/', kind: 'linkedin' },
+      { label: 'Agyapong Albert Yeboah portfolio', href: 'https://albertportfolio-rho.vercel.app/', kind: 'website' },
+    ],
   },
   {
     name: 'Miss Mailiana',
@@ -157,6 +160,8 @@ export function TeamCarousel() {
                         >
                           {social.kind === 'linkedin' ? (
                             <LinkedInMark className="size-4" />
+                          ) : social.kind === 'website' ? (
+                            <Globe className="size-4" aria-hidden="true" />
                           ) : (
                             <InstagramMark className="size-4" />
                           )}
