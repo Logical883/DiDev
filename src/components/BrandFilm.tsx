@@ -44,7 +44,7 @@ export function BrandFilm({ open, onClose }: { open: boolean; onClose: () => voi
         role="dialog"
         aria-modal="true"
         aria-label="DiDev brand film"
-        className="film-stage w-full max-w-5xl overflow-hidden rounded-2xl bg-navy text-white shadow-[0_30px_80px_rgba(0,0,0,0.45)] ring-1 ring-white/10"
+        className="film-stage w-full max-w-5xl overflow-hidden rounded-2xl bg-black text-white shadow-[0_30px_80px_rgba(0,0,0,0.45)] ring-1 ring-white/10"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-7">

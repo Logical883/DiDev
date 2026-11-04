@@ -56,7 +56,12 @@ export function Button({
 
   if (href) {
     return (
-      <a href={href} className={classNames} onClick={onClick}>
+      <a
+        href={href}
+        className={classNames}
+        onClick={onClick}
+        {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
         {content}
       </a>
     )

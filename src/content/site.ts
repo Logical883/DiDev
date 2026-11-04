@@ -488,6 +488,10 @@ export const story =
  */
 export const tbc = 'To be confirmed'
 
+/** YouTube playlist for 100 Days of Data. */
+export const hundredDaysPlaylistId = 'PLzzpq3fNhC_jrquvHl2-y2Q1skXsYHlfv'
+export const hundredDaysPlaylistUrl = `https://www.youtube.com/playlist?list=${hundredDaysPlaylistId}`
+
 export const academySchools = [
   {
     id: 'data',
@@ -497,13 +501,25 @@ export const academySchools = [
     programmes: [
       {
         title: 'Data Foundation',
+        slug: 'data-foundation',
         href: '/academy/data-foundation',
         text: 'A guided pathway through Excel, SQL and Power BI, with project milestones and a portfolio review.',
+        tags: ['Excel', 'SQL', 'Power BI'],
+        price: '$50',
+        format: 'Self-paced + monthly office hours',
+        image: '/brand/academy/data-foundation.jpg',
+        imageAlt: 'A DiDev facilitator teaching learners working on laptops',
       },
       {
         title: '100 Days of Data',
+        slug: '100-days-of-data',
         href: '/academy/100-days-of-data',
         text: 'The free way in, taught by Miss Mailiana. Start here if you are not sure where to begin.',
+        tags: ['Beginner', 'Start here'],
+        price: 'Free',
+        format: 'YouTube playlist',
+        image: '/brand/academy/100-days-of-data.jpg',
+        imageAlt: 'Portrait of Miss Mailiana, who teaches 100 Days of Data',
       },
     ],
   },
@@ -515,8 +531,14 @@ export const academySchools = [
     programmes: [
       {
         title: 'Digital Marketing Incubator',
+        slug: 'digital-marketing-incubator',
         href: '/academy/digital-marketing-incubator',
         text: 'A hands-on programme for building a brand, a content plan and a campaign you can show.',
+        tags: ['Brand', 'Content plan', 'Campaign'],
+        price: '$70',
+        format: 'Self-paced + monthly office hours',
+        image: '/brand/academy/digital-marketing-incubator.jpg',
+        imageAlt: 'A DiDev speaker sharing ideas at an incubator session',
       },
     ],
   },
@@ -567,12 +589,12 @@ export const programmePages: Record<string, ProgrammePage> = {
     ],
     tags: ['Excel', 'SQL', 'Power BI', 'Portfolio'],
     facts: [
-      { label: 'Format', value: 'Guided, online' },
-      { label: 'Fee', value: tbc },
-      { label: 'Next start', value: tbc },
+      { label: 'Format', value: 'Self-paced, with monthly office hours' },
+      { label: 'Fee', value: '$50' },
+      { label: 'Access', value: 'Start any time' },
     ],
-    cta: { label: 'Enquire about Data Foundation', href: '/contact?topic=academy' },
-    note: 'Enrolment details are being finalised. Send an enquiry and we will reply with the next steps.',
+    cta: { label: 'Enrol for $50', href: 'https://nestuge.com/p7tbmru-u' },
+    note: 'Payment is handled securely by Nestuge. You get access straight after purchase.',
   },
   'digital-marketing-incubator': {
     slug: 'digital-marketing-incubator',
@@ -590,12 +612,12 @@ export const programmePages: Record<string, ProgrammePage> = {
     ],
     tags: ['Brand', 'Content plan', 'Campaigns'],
     facts: [
-      { label: 'Format', value: 'Guided, online' },
-      { label: 'Fee', value: tbc },
-      { label: 'Next start', value: tbc },
+      { label: 'Format', value: 'Self-paced, with monthly office hours' },
+      { label: 'Fee', value: '$70' },
+      { label: 'Access', value: 'Start any time' },
     ],
-    cta: { label: 'Enquire about the Incubator', href: '/contact?topic=academy' },
-    note: 'Length and enrolment details are being finalised. Send an enquiry and we will reply with the next steps.',
+    cta: { label: 'Enrol for $70', href: 'https://nestuge.com/vrvpqsswk' },
+    note: 'Payment is handled securely by Nestuge. You get access straight after purchase.',
   },
   '100-days-of-data': {
     slug: '100-days-of-data',
@@ -614,10 +636,10 @@ export const programmePages: Record<string, ProgrammePage> = {
     facts: [
       { label: 'Cost', value: 'Free' },
       { label: 'Format', value: 'Self-paced playlist' },
-      { label: 'Playlist link', value: tbc },
+      { label: 'Access', value: 'Open to everyone' },
     ],
-    cta: { label: 'Ask for the playlist', href: '/contact?topic=academy' },
-    note: 'Automatic sign-up and delivery of the playlist is not live yet. For now, send us a message and we will respond.',
+    cta: { label: 'Watch the playlist', href: hundredDaysPlaylistUrl },
+    note: 'Watch at your own pace. When you want guidance and feedback, Data Foundation is the next step.',
   },
 }
 
