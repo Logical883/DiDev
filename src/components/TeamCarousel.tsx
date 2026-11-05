@@ -1,7 +1,11 @@
 import { useState, type CSSProperties } from 'react'
+import IconButton from '@mui/material/IconButton'
 import { ChevronLeft, ChevronRight, Globe } from 'lucide-react'
 import { instagram } from '../content/site'
 import { cn } from '../lib/cn'
+import { SkeletonImage } from './Skeletons'
+
+const arrowSx = { width: 40, height: 40, bgcolor: 'primary.main', color: '#fff', '&:hover': { bgcolor: 'secondary.main', color: 'primary.main' } } as const
 
 function LinkedInMark({ className }: { className?: string }) {
   return (
@@ -120,7 +124,8 @@ export function TeamCarousel() {
               )}
             >
               <div className="relative">
-                <img
+                <SkeletonImage
+                  skeletonClassName="rounded-[22px] md:rounded-[32px]"
                   src={member.photo}
                   alt={`${member.name}, ${member.role}`}
                   loading="lazy"
@@ -202,22 +207,12 @@ export function TeamCarousel() {
           />
         </div>
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            aria-label="Previous team member"
-            className="grid size-10 place-items-center rounded-full bg-navy text-white transition hover:bg-yellow hover:text-navy"
-          >
+          <IconButton onClick={() => go(-1)} aria-label="Previous team member" sx={arrowSx}>
             <ChevronLeft className="size-4" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => go(1)}
-            aria-label="Next team member"
-            className="grid size-10 place-items-center rounded-full bg-navy text-white transition hover:bg-yellow hover:text-navy"
-          >
+          </IconButton>
+          <IconButton onClick={() => go(1)} aria-label="Next team member" sx={arrowSx}>
             <ChevronRight className="size-4" aria-hidden="true" />
-          </button>
+          </IconButton>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { networkActivities, networkProgramme } from '../content/site'
 import { Button } from '../components/Button'
 import { Container, CtaBand, Eyebrow, PageHero } from '../components/Chrome'
 import { usePageMeta } from '../lib/page'
+import { SkeletonImage } from '../components/Skeletons'
 
 const principles = [
   { title: 'A shared outcome', text: 'A partnership needs a reason: a cohort, an event, a community programme or a piece of research with a defined audience.' },
@@ -32,7 +33,7 @@ export function NetworkPage() {
       <section className="py-20 md:py-28">
         <Container className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <img src="/brand/logo-network.png" alt="DiDev Network" className="h-16 w-auto" />
+            <SkeletonImage wrap="" src="/brand/logo-network.png" alt="DiDev Network" width={1600} height={535} className="h-16 w-auto" />
             <h2 className="mt-8 text-[clamp(2rem,4vw,3.3rem)] text-navy">A network that grows with the work.</h2>
           </div>
           <div className="space-y-5 leading-8 text-muted">

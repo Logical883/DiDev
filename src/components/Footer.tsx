@@ -1,7 +1,12 @@
 import { type FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 import { ArrowUp, Mail, MapPin } from 'lucide-react'
 import { company, instagram } from '../content/site'
+import { Button } from './Button'
+import { SkeletonImage } from './Skeletons'
 
 function InstagramMark({ className }: { className?: string }) {
   return (
@@ -52,7 +57,15 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-4">
         <div>
           <Link to="/" className="inline-flex" aria-label="DiDev home">
-            <img src="/brand/logo-horizontal-gray.png" alt="DiDev. Learn. Build. Transform." className="h-12 w-auto" />
+            <SkeletonImage
+              wrap=""
+              tone="dark"
+              src="/brand/logo-horizontal-gray.png"
+              alt="DiDev. Learn. Build. Transform."
+              width={1600}
+              height={531}
+              className="h-12 w-auto"
+            />
           </Link>
           <p className="mt-4 text-sm text-white/60">{company.tagline}</p>
 
@@ -102,50 +115,61 @@ export function Footer() {
             Share your email and we will open a conversation. Nothing is stored on this site.
           </p>
           <form onSubmit={onSubmit} className="mt-5" noValidate>
-            <label htmlFor="footer-email" className="sr-only">Email address</label>
-            <div className="flex items-center gap-2 bg-white px-3 text-navy">
-              <Mail className="size-4 shrink-0 text-ink/50" aria-hidden="true" />
-              <input
-                id="footer-email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(event) => {
-                  setEmail(event.target.value)
-                  setError('')
-                }}
-                placeholder="Enter your email"
-                className="h-12 w-full bg-transparent text-sm text-ink outline-none placeholder:text-ink/40"
-              />
+            <TextField
+              id="footer-email"
+              type="email"
+              fullWidth
+              hiddenLabel
+              autoComplete="email"
+              placeholder="Enter your email"
+              value={email}
+              error={Boolean(error)}
+              onChange={(event) => {
+                setEmail(event.target.value)
+                setError('')
+              }}
+              slotProps={{
+                htmlInput: { 'aria-label': 'Email address', 'aria-describedby': error ? 'footer-email-error' : undefined },
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Mail className="size-4 shrink-0 text-ink/50" aria-hidden="true" />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0, height: 48 }, '& .MuiOutlinedInput-notchedOutline': { border: 0 } }}
+            />
+            {error ? <p id="footer-email-error" className="mt-2 text-sm text-[#ffb4b4]">{error}</p> : null}
+            <div className="mt-3">
+              <Button type="submit" icon={false} className="rounded-none px-5 py-3 text-sm">
+                Subscribe
+              </Button>
             </div>
-            {error ? <p className="mt-2 text-sm text-[#ffb4b4]">{error}</p> : null}
-            <button type="submit" className="mt-3 bg-yellow px-5 py-3 text-sm font-semibold text-navy transition hover:bg-[#ffe14a]">
-              Subscribe
-            </button>
           </form>
         </div>
       </div>
 
       <div className="border-t border-white/15">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-6 px-5 py-6 md:flex-row md:justify-between md:px-8">
-          <a
+          <IconButton
+            component="a"
             href={instagram}
             aria-label="DiDev on Instagram"
             target="_blank"
             rel="noreferrer"
-            className="grid size-9 place-items-center rounded-full bg-white text-[#111835] transition hover:bg-white/90"
+            sx={{ width: 36, height: 36, bgcolor: '#fff', color: '#111835', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' } }}
           >
             <InstagramMark className="size-4" />
-          </a>
+          </IconButton>
           <p className="text-xs text-white/55">© {new Date().getFullYear()} Mailiana-DiDev LTD. All rights reserved.</p>
-          <button
-            type="button"
+          <IconButton
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="grid size-9 place-items-center bg-white text-[#111835] transition hover:bg-white/90"
             aria-label="Back to top"
+            sx={{ width: 36, height: 36, borderRadius: 0, bgcolor: '#fff', color: '#111835', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.9)' } }}
           >
             <ArrowUp className="size-4" aria-hidden="true" />
-          </button>
+          </IconButton>
         </div>
       </div>
     </footer>

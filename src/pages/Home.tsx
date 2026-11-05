@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
 import { ArrowRight } from 'lucide-react'
 import {
   challenges,
@@ -61,23 +63,36 @@ export function HomePage() {
       <section className="bg-white py-16 md:py-24">
         <Container>
           <h2 className="text-center text-[clamp(2rem,4vw,3.2rem)] text-navy">Why DiDev</h2>
-          <div className="mt-8 flex flex-wrap justify-center gap-3" role="tablist" aria-label="Why DiDev">
-            {gapTabs.map((label, index) => (
-              <button
+          <Tabs
+            value={gap}
+            onChange={(_, value: number) => setGap(value)}
+            variant="scrollable"
+            scrollButtons={false}
+            aria-label="Why DiDev"
+            slotProps={{ indicator: { sx: { display: 'none' } } }}
+            sx={{ mt: 4, '& .MuiTabs-flexContainer': { justifyContent: 'center', gap: 1.5 } }}
+          >
+            {gapTabs.map((label) => (
+              <Tab
                 key={label}
-                type="button"
-                role="tab"
-                aria-selected={gap === index}
-                onClick={() => setGap(index)}
-                className={cn(
-                  'rounded-full border px-5 py-2 text-sm font-semibold',
-                  gap === index ? 'border-navy bg-navy text-white' : 'border-line bg-white text-navy',
-                )}
-              >
-                {label}
-              </button>
+                label={label}
+                disableRipple
+                sx={{
+                  minHeight: 40,
+                  px: 2.5,
+                  py: 0.5,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  borderRadius: '999px',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  color: 'primary.main',
+                  bgcolor: '#fff',
+                  '&.Mui-selected': { color: '#fff', bgcolor: 'primary.main', borderColor: 'primary.main' },
+                }}
+              />
             ))}
-          </div>
+          </Tabs>
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-2">
             <WhyVisual index={gap} />
             <div>

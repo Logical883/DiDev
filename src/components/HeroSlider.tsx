@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import MuiButton from '@mui/material/Button'
 import { Play } from 'lucide-react'
 import { slides } from '../content/site'
 import { cn } from '../lib/cn'
 import { Button } from './Button'
+import { SkeletonImage } from './Skeletons'
 
 const DURATION = 8500
 
@@ -56,8 +58,10 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
       <div className="absolute inset-0">
         <style>{motion}</style>
         {photos.map((photo, photoIndex) => (
-          <img
+          <SkeletonImage
             key={photo.src}
+            tone="dark"
+            skeleton={photoIndex === index % photos.length}
             src={photo.src}
             alt=""
             aria-hidden="true"
@@ -79,10 +83,13 @@ export function HeroSlider({ onPlayFilm }: { onPlayFilm: () => void }) {
         <p className="mt-6 text-lg leading-8 text-white/85">{slide.text}</p>
         <div className="mt-8 flex flex-col items-center gap-4 lg:items-start">
           <Button href={slide.primary.href}>{slide.primary.label}</Button>
-          <button type="button" onClick={onPlayFilm} className="inline-flex items-center gap-2 text-sm font-semibold text-white">
-            <Play className="size-4" />
+          <MuiButton
+            onClick={onPlayFilm}
+            startIcon={<Play className="size-4" />}
+            sx={{ color: '#fff', fontSize: 14, px: 1, '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+          >
             Play brand film
-          </button>
+          </MuiButton>
         </div>
         <div className="mt-10 flex items-center gap-2" role="tablist" aria-label="Hero slides">
           {slides.map((item, itemIndex) => (

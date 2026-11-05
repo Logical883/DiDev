@@ -1,3 +1,5 @@
+import { SkeletonImage } from './Skeletons'
+
 /** Photo shown at the top of each division card on the home page. */
 const photos: Record<string, { src: string; position: string }> = {
     'DiDev Academy': { src: '/brand/9H7A2697.jpg', position: '50% 25%' },
@@ -11,14 +13,14 @@ const photos: Record<string, { src: string; position: string }> = {
     if (!photo) {
       return (
         <div className="flex h-40 items-center justify-center bg-mist">
-          <img src={logo} alt="" className="h-14 w-auto" />
+          <SkeletonImage wrap="" src={logo} alt="" className="h-14 w-auto" />
         </div>
       )
     }
   
     return (
-      <div className="h-52 overflow-hidden bg-mist">
-        <img
+      <div className="relative h-52 overflow-hidden bg-mist">
+        <SkeletonImage
           src={photo.src}
           alt=""
           loading="lazy"

@@ -3,6 +3,7 @@ import { Button } from '../components/Button'
 import { Container, CtaBand, Eyebrow, PageHero } from '../components/Chrome'
 import { cn } from '../lib/cn'
 import { usePageMeta } from '../lib/page'
+import { SkeletonImage } from '../components/Skeletons'
 
 export function ConsultingPage() {
   usePageMeta(
@@ -26,7 +27,7 @@ export function ConsultingPage() {
 
       <section className="bg-white py-16">
         <Container className="grid items-center gap-8 md:grid-cols-[auto_1fr]">
-          <img src="/brand/logo-consulting.png" alt="DiDev Consulting" className="h-16 w-auto" />
+          <SkeletonImage wrap="" src="/brand/logo-consulting.png" alt="DiDev Consulting" width={1600} height={557} className="h-16 w-auto" />
           <p className="max-w-3xl text-lg leading-8 text-muted">
             Organizations come with disconnected tools, reports nobody trusts, or training that never reaches the job. Consulting starts with that problem, not with a platform.
           </p>

@@ -1,9 +1,11 @@
 import { useCallback, useState } from 'react'
+import Chip from '@mui/material/Chip'
+import MuiButton from '@mui/material/Button'
 import { BarChart3, Bot, Megaphone, Workflow, type LucideIcon } from 'lucide-react'
 import { academySchools, learnerAudiences } from '../content/site'
 import { Button } from '../components/Button'
 import { ProgrammeModal, type ProgrammeCard } from '../components/ProgrammeModal'
-import { cn } from '../lib/cn'
+import { SkeletonImage } from '../components/Skeletons'
 import { Container, CtaBand, Eyebrow, PageHero } from '../components/Chrome'
 import { usePageMeta } from '../lib/page'
 
@@ -62,7 +64,7 @@ export function AcademyPage() {
       <section className="py-20 md:py-28">
         <Container className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
-            <img src="/brand/logo-academy.png" alt="DiDev Academy" className="h-20 w-auto" />
+            <SkeletonImage wrap="" src="/brand/logo-academy.png" alt="DiDev Academy" width={1600} height={574} className="h-20 w-auto" />
             <h2 className="mt-8 text-[clamp(2rem,4vw,3.3rem)] text-navy">Learning that has to survive contact with the work.</h2>
           </div>
           <div className="space-y-5 text-base leading-8 text-muted">
@@ -94,19 +96,29 @@ export function AcademyPage() {
               (option) => {
                 const selected = filter === option.id
                 return (
-                  <button
+                  <Chip
                     key={option.id}
-                    type="button"
+                    clickable
                     aria-pressed={selected}
                     onClick={() => setFilter(option.id)}
-                    className={cn(
-                      'inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition',
-                      selected ? 'border-navy bg-navy text-white' : 'border-navy/15 bg-white text-navy hover:border-navy/40',
-                    )}
-                  >
-                    {option.name}
-                    <span className={cn('text-xs', selected ? 'text-white/60' : 'text-muted')}>{option.count}</span>
-                  </button>
+                    variant={selected ? 'filled' : 'outlined'}
+                    label={
+                      <span className="inline-flex items-center gap-2">
+                        {option.name}
+                        <span className={selected ? 'text-xs text-white/60' : 'text-xs text-muted'}>{option.count}</span>
+                      </span>
+                    }
+                    sx={{
+                      height: 38,
+                      px: 0.5,
+                      fontSize: 14,
+                      fontWeight: 600,
+                      bgcolor: selected ? 'primary.main' : '#fff',
+                      color: selected ? '#fff' : 'primary.main',
+                      borderColor: selected ? 'primary.main' : 'rgba(17, 24, 53, 0.15)',
+                      '&:hover': { bgcolor: selected ? 'primary.light' : '#fff', borderColor: selected ? 'primary.light' : 'rgba(17, 24, 53, 0.4)' },
+                    }}
+                  />
                 )
               },
             )}
@@ -131,7 +143,7 @@ export function AcademyPage() {
                 className="group flex flex-col rounded-3xl bg-white p-3 shadow-[0_10px_30px_rgba(17,24,53,0.06)] transition-shadow duration-300 hover:shadow-[0_22px_50px_rgba(17,24,53,0.12)]"
               >
                 <div className="relative overflow-hidden rounded-2xl">
-                  <img
+                  <SkeletonImage
                     src={programme.image}
                     alt={programme.imageAlt}
                     loading="lazy"
@@ -150,13 +162,15 @@ export function AcademyPage() {
                     <span className="text-muted"> · {programme.format}</span>
                   </p>
                   <p className="mt-2 mb-6 text-xs text-muted">{programme.tags.join(' · ')}</p>
-                  <button
-                    type="button"
+                  <MuiButton
+                    fullWidth
+                    variant="contained"
+                    disableElevation
                     onClick={() => setOpenProgramme(programme)}
-                    className="mt-auto w-full rounded-xl bg-navy px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-navy-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+                    sx={{ mt: 'auto', py: '14px', borderRadius: '12px', fontSize: 14, bgcolor: 'primary.main', color: '#fff', '&:hover': { bgcolor: 'primary.light' } }}
                   >
                     {programme.price === 'Free' ? 'Start watching' : 'View programme'}
-                  </button>
+                  </MuiButton>
                 </div>
               </article>
             ))}

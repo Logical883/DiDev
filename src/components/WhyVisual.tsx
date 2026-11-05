@@ -1,4 +1,5 @@
 import { cn } from '../lib/cn'
+import { SkeletonImage } from './Skeletons'
 
 /** Two photos per tab: [large rectangle, small rectangle]. */
 const pairs: [string, string][] = [
@@ -11,8 +12,9 @@ function Fade({ sources, active, slot }: { sources: string[]; active: number; sl
   return (
     <>
       {sources.map((src, index) => (
-        <img
+        <SkeletonImage
           key={src}
+          skeleton={index === active}
           src={src}
           alt=""
           loading="lazy"

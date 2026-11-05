@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Button } from './Button'
 import { cn } from '../lib/cn'
+import { SkeletonImage } from './Skeletons'
 
 export function Container({
   children,
@@ -95,7 +96,9 @@ export function PageHero({
 
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white">
-      <img
+      <SkeletonImage
+        tone="dark"
+        skeletonClassName="-z-20"
         src={photo.src}
         alt=""
         decoding="async"

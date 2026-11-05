@@ -1,3 +1,6 @@
+/* Layer order: MUI sits between Tailwind's base and its utilities, so Tailwind classes can still override MUI styles. */
+@layer theme, base, mui, components, utilities;
+
 @import "tailwindcss";
 
 @theme {
@@ -138,6 +141,11 @@ button:disabled {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .MuiSkeleton-root,
+  .MuiSkeleton-root::after {
+    animation: none !important;
   }
 
   .animate-rise,

@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import AppBar from '@mui/material/AppBar'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import Toolbar from '@mui/material/Toolbar'
 import { Menu, X } from 'lucide-react'
 import { nav } from '../content/site'
 import { cn } from '../lib/cn'
 import { Button } from './Button'
+import { SkeletonImage } from './Skeletons'
 
 const linkClass = (isActive: boolean) =>
   cn(
@@ -28,29 +35,38 @@ export function Header() {
     setOpen(false)
   }, [location.pathname])
 
-  useEffect(() => {
-    if (!open) return
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = previous
-    }
-  }, [open])
+  const isActive = (href: string) => (href === '/' ? location.pathname === '/' : location.pathname.startsWith(href))
 
   return (
-    <header className={cn('fixed inset-x-0 top-0 z-50 border-b border-line bg-white', scrolled && 'shadow-[0_10px_30px_rgba(17,24,53,0.08)]')}>
-      <div className="mx-auto flex h-[78px] w-full max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
+    <AppBar
+      position="fixed"
+      color="inherit"
+      elevation={0}
+      sx={{
+        zIndex: 50,
+        bgcolor: '#fff',
+        color: 'primary.main',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        boxShadow: scrolled ? '0 10px 30px rgba(17, 24, 53, 0.08)' : 'none',
+        transition: 'box-shadow 200ms',
+      }}
+    >
+      <Toolbar disableGutters className="mx-auto min-h-[78px] w-full max-w-7xl justify-between gap-6 px-5 md:px-8">
         <Link to="/" className="shrink-0" aria-label="DiDev home">
-          <img
+          <SkeletonImage
+            wrap=""
             src="/brand/logo-horizontal.png"
             alt="DiDev. Learn. Build. Transform."
+            width={1600}
+            height={531}
             className="h-12 w-auto sm:h-[52px]"
           />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {nav.map((item) => (
-            <NavLink key={item.href} to={item.href} end={item.href === '/'} className={({ isActive }) => linkClass(isActive)}>
+            <NavLink key={item.href} to={item.href} end={item.href === '/'} className={({ isActive: active }) => linkClass(active)}>
               {item.label}
             </NavLink>
           ))}
@@ -62,80 +78,69 @@ export function Header() {
           </Button>
         </div>
 
-        <button
-          type="button"
-          className="relative grid size-11 place-items-center rounded-[3px] border border-line text-navy transition hover:border-navy hover:bg-mist lg:hidden"
+        <IconButton
+          className="lg:hidden"
+          aria-label="Open menu"
           aria-expanded={open}
           aria-controls="mobile-nav"
-          onClick={() => setOpen((value) => !value)}
+          onClick={() => setOpen(true)}
+          sx={{ width: 44, height: 44, borderRadius: '3px', border: '1px solid', borderColor: 'divider', color: 'primary.main', '&:hover': { borderColor: 'primary.main', bgcolor: '#e9eef2' } }}
         >
-          <Menu
-            aria-hidden="true"
-            className={cn(
-              'absolute size-5 transition-all duration-300 ease-out motion-reduce:transition-none',
-              open ? 'rotate-90 scale-50 opacity-0' : 'rotate-0 scale-100 opacity-100',
-            )}
-          />
-          <X
-            aria-hidden="true"
-            className={cn(
-              'absolute size-5 transition-all duration-300 ease-out motion-reduce:transition-none',
-              open ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0',
-            )}
-          />
-          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
-        </button>
-      </div>
+          <Menu className="size-5" aria-hidden="true" />
+        </IconButton>
+      </Toolbar>
 
-      {/* Dimmed page behind the open menu; tap to close. */}
-      <div
-        aria-hidden="true"
-        onClick={() => setOpen(false)}
-        className={cn(
-          'fixed inset-x-0 top-[78px] bottom-0 -z-10 bg-navy/40 backdrop-blur-[2px] transition-opacity duration-500 ease-out motion-reduce:transition-none lg:hidden',
-          open ? 'opacity-100' : 'pointer-events-none opacity-0',
-        )}
-      />
-
-      <div
-        id="mobile-nav"
-        inert={!open}
-        className={cn(
-          'grid bg-white transition-[grid-template-rows,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none lg:hidden',
-          open ? 'grid-rows-[1fr] border-t border-line' : 'grid-rows-[0fr] border-t border-transparent',
-        )}
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={() => setOpen(false)}
+        slotProps={{
+          backdrop: { sx: { bgcolor: 'rgba(17, 24, 53, 0.4)', backdropFilter: 'blur(2px)' } },
+          paper: { id: 'mobile-nav', sx: { width: 'min(88vw, 380px)', bgcolor: '#fff' } },
+        }}
       >
-        <div className="min-h-0 overflow-hidden">
-          <nav className="mx-auto flex max-h-[calc(100svh-90px)] w-full max-w-7xl flex-col overflow-auto px-5 py-2 md:px-8" aria-label="Mobile">
-            {nav.map((item, index) => (
-              <NavLink
+        <div className="flex h-[78px] shrink-0 items-center justify-end border-b border-line px-5">
+          <IconButton
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+            sx={{ width: 44, height: 44, borderRadius: '3px', border: '1px solid', borderColor: 'divider', color: 'primary.main' }}
+          >
+            <X className="size-5" aria-hidden="true" />
+          </IconButton>
+        </div>
+
+        <nav aria-label="Mobile" className="flex flex-1 flex-col overflow-auto px-5 py-2">
+          <List disablePadding>
+            {nav.map((item) => (
+              <ListItemButton
                 key={item.href}
+                component={Link}
                 to={item.href}
-                end={item.href === '/'}
-                style={{ transitionDelay: open ? `${120 + index * 55}ms` : '0ms' }}
-                className={({ isActive }) =>
-                  cn(
-                    'border-b py-4 font-display text-3xl text-navy transition-[opacity,transform,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:pl-2 motion-reduce:transition-none',
-                    isActive ? 'border-yellow' : 'border-line',
-                    open ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0',
-                  )
-                }
+                selected={isActive(item.href)}
+                disableGutters
+                sx={{
+                  py: 2,
+                  borderBottom: '1px solid',
+                  borderColor: isActive(item.href) ? 'secondary.main' : 'divider',
+                  fontFamily: '"Manrope", Arial, Helvetica, sans-serif',
+                  fontWeight: 700,
+                  fontSize: 28,
+                  letterSpacing: '-0.04em',
+                  color: 'primary.main',
+                  transition: 'padding-left 200ms',
+                  '&:hover': { pl: 1, bgcolor: 'transparent' },
+                  '&.Mui-selected, &.Mui-selected:hover': { bgcolor: 'transparent' },
+                }}
               >
                 {item.label}
-              </NavLink>
+              </ListItemButton>
             ))}
-            <div
-              style={{ transitionDelay: open ? `${120 + nav.length * 55}ms` : '0ms' }}
-              className={cn(
-                'py-6 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
-                open ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0',
-              )}
-            >
-              <Button href="/contact">Start a conversation</Button>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </header>
+          </List>
+          <div className="py-6">
+            <Button href="/contact">Start a conversation</Button>
+          </div>
+        </nav>
+      </Drawer>
+    </AppBar>
   )
 }

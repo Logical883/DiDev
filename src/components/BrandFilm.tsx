@@ -1,31 +1,15 @@
-import { useEffect, useRef } from 'react'
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
 import { X } from 'lucide-react'
 import { brandFilmYouTubeId } from '../content/site'
+import { SkeletonIframe } from './Skeletons'
 
 /**
- * Brand film window. Plays the YouTube video inline (privacy-enhanced
- * youtube-nocookie domain) so visitors never leave the site.
+ * Brand film window, built on Material UI's Dialog (focus trap, Escape to
+ * close and scroll lock come with it). Plays the YouTube video inline
+ * (privacy-enhanced youtube-nocookie domain) so visitors never leave the site.
  */
 export function BrandFilm({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (!open) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = previous
-    }
-  }, [open, onClose])
-
-  if (!open) return null
-
   const params = new URLSearchParams({
     autoplay: '1',
     rel: '0',
@@ -35,41 +19,39 @@ export function BrandFilm({ open, onClose }: { open: boolean; onClose: () => voi
   const src = `https://www.youtube-nocookie.com/embed/${brandFilmYouTubeId}?${params}`
 
   return (
-    <div
-      className="film-backdrop fixed inset-0 z-[80] flex items-center justify-center bg-black/25 p-4 backdrop-blur-xl backdrop-saturate-150"
-      role="presentation"
-      onClick={onClose}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="lg"
+      aria-label="DiDev brand film"
+      slotProps={{
+        backdrop: { sx: { bgcolor: 'rgba(0, 0, 0, 0.25)', backdropFilter: 'blur(16px) saturate(1.5)' } },
+        paper: {
+          sx: { m: 2, width: 'calc(100% - 32px)', borderRadius: '16px', bgcolor: '#000', color: '#fff', boxShadow: '0 30px 80px rgba(0, 0, 0, 0.45)', outline: '1px solid rgba(255, 255, 255, 0.1)' },
+        },
+      }}
     >
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="DiDev brand film"
-        className="film-stage w-full max-w-5xl overflow-hidden rounded-2xl bg-black text-white shadow-[0_30px_80px_rgba(0,0,0,0.45)] ring-1 ring-white/10"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-7">
-          <p className="text-[11px] font-semibold tracking-[0.18em] text-yellow uppercase">Brand film</p>
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={onClose}
-            className="grid size-10 place-items-center border border-white/20 transition hover:border-yellow hover:text-yellow"
-            aria-label="Close film"
-          >
-            <X className="size-4" />
-          </button>
-        </div>
-        <div className="relative aspect-video w-full bg-black">
-          <iframe
-            src={src}
-            title="DiDev brand film"
-            className="absolute inset-0 size-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
-        </div>
+      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 md:px-7">
+        <p className="text-[11px] font-semibold tracking-[0.18em] text-yellow uppercase">Brand film</p>
+        <IconButton
+          onClick={onClose}
+          aria-label="Close film"
+          sx={{ width: 40, height: 40, borderRadius: 0, border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff', '&:hover': { borderColor: '#f8d618', color: '#f8d618', bgcolor: 'transparent' } }}
+        >
+          <X className="size-4" />
+        </IconButton>
       </div>
-    </div>
+      <div className="relative aspect-video w-full bg-black">
+        <SkeletonIframe
+          src={src}
+          title="DiDev brand film"
+          className="absolute inset-0 size-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+    </Dialog>
   )
 }

@@ -2,11 +2,14 @@ import { Link } from 'react-router-dom'
 import { company } from '../content/site'
 import { Button } from './Button'
 import { Container } from './Chrome'
+import { SkeletonImage } from './Skeletons'
 
 export function AboutHero() {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white">
-      <img
+      <SkeletonImage
+        tone="dark"
+        skeletonClassName="-z-20"
         src="/hero-poster.jpg"
         alt=""
         width={1280}

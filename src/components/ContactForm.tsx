@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import MuiButton from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
 import { Check, Copy, Mail } from 'lucide-react'
 import { contactEmail, inquiryTopics, timelines } from '../content/site'
 import { Button } from './Button'
@@ -21,6 +24,8 @@ const empty: Fields = {
   timeline: timelines[0],
   message: '',
 }
+
+const outlineSx = { px: 2, py: 1.5, borderRadius: '3px', fontSize: 14, borderColor: 'rgba(17, 24, 53, 0.2)', '&:hover': { borderColor: 'primary.main', bgcolor: 'transparent' } } as const
 
 function buildMessage(fields: Fields) {
   const topic = inquiryTopics.find((item) => item.id === fields.topic)?.label ?? fields.topic
@@ -110,75 +115,96 @@ export function ContactForm() {
     }
   }
 
-  const fieldClass =
-    'mt-2 w-full rounded-[3px] border border-line bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition focus:border-navy'
-
   return (
     <form onSubmit={onSubmit} className="border border-line bg-white p-6 shadow-[0_20px_60px_rgba(17,24,53,0.06)] md:p-8" noValidate>
-      <div>
-        <label htmlFor="topic" className="text-sm font-semibold text-navy">What would you like to discuss?</label>
-        <select
-          id="topic"
-          className={fieldClass}
-          value={fields.topic}
-          onChange={(event) => update('topic', event.target.value)}
-          aria-invalid={Boolean(errors.topic)}
-          aria-describedby={errors.topic ? 'topic-error' : undefined}
-        >
-          <option value="">Select an inquiry</option>
-          {inquiryTopics.map((topic) => (
-            <option key={topic.id} value={topic.id}>{topic.label}</option>
+      <TextField
+        select
+        fullWidth
+        id="topic"
+        label="What would you like to discuss?"
+        value={fields.topic}
+        onChange={(event) => update('topic', event.target.value)}
+        error={Boolean(errors.topic)}
+        helperText={errors.topic}
+        slotProps={{ inputLabel: { shrink: true }, select: { displayEmpty: true } }}
+      >
+        <MenuItem value="">Select an inquiry</MenuItem>
+        {inquiryTopics.map((topic) => (
+          <MenuItem key={topic.id} value={topic.id}>
+            {topic.label}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <div className="mt-5 grid gap-5 md:grid-cols-2">
+        <TextField
+          id="name"
+          label="Your name"
+          autoComplete="name"
+          value={fields.name}
+          onChange={(event) => update('name', event.target.value)}
+          error={Boolean(errors.name)}
+          helperText={errors.name}
+        />
+        <TextField
+          id="organization"
+          label="Organization"
+          autoComplete="organization"
+          value={fields.organization}
+          onChange={(event) => update('organization', event.target.value)}
+        />
+      </div>
+
+      <div className="mt-5 grid gap-5 md:grid-cols-2">
+        <TextField
+          id="email"
+          type="email"
+          label="Email"
+          autoComplete="email"
+          value={fields.email}
+          onChange={(event) => update('email', event.target.value)}
+          error={Boolean(errors.email)}
+          helperText={errors.email}
+        />
+        <TextField select id="timeline" label="Target timeline" value={fields.timeline} onChange={(event) => update('timeline', event.target.value)}>
+          {timelines.map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
           ))}
-        </select>
-        {errors.topic ? <p id="topic-error" className="mt-2 text-sm text-[#8a2b2b]">{errors.topic}</p> : null}
-      </div>
-
-      <div className="mt-5 grid gap-5 md:grid-cols-2">
-        <div>
-          <label htmlFor="name" className="text-sm font-semibold text-navy">Your name</label>
-          <input id="name" autoComplete="name" className={fieldClass} value={fields.name} onChange={(event) => update('name', event.target.value)} aria-invalid={Boolean(errors.name)} />
-          {errors.name ? <p className="mt-2 text-sm text-[#8a2b2b]">{errors.name}</p> : null}
-        </div>
-        <div>
-          <label htmlFor="organization" className="text-sm font-semibold text-navy">Organization</label>
-          <input id="organization" autoComplete="organization" className={fieldClass} value={fields.organization} onChange={(event) => update('organization', event.target.value)} />
-        </div>
-      </div>
-
-      <div className="mt-5 grid gap-5 md:grid-cols-2">
-        <div>
-          <label htmlFor="email" className="text-sm font-semibold text-navy">Email</label>
-          <input id="email" type="email" autoComplete="email" className={fieldClass} value={fields.email} onChange={(event) => update('email', event.target.value)} aria-invalid={Boolean(errors.email)} />
-          {errors.email ? <p className="mt-2 text-sm text-[#8a2b2b]">{errors.email}</p> : null}
-        </div>
-        <div>
-          <label htmlFor="timeline" className="text-sm font-semibold text-navy">Target timeline</label>
-          <select id="timeline" className={fieldClass} value={fields.timeline} onChange={(event) => update('timeline', event.target.value)}>
-            {timelines.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-        </div>
+        </TextField>
       </div>
 
       <div className="mt-5">
-        <label htmlFor="message" className="text-sm font-semibold text-navy">The challenge and the outcome you want</label>
-        <textarea id="message" rows={6} className={fieldClass} value={fields.message} onChange={(event) => update('message', event.target.value)} aria-invalid={Boolean(errors.message)} />
-        {errors.message ? <p className="mt-2 text-sm text-[#8a2b2b]">{errors.message}</p> : null}
+        <TextField
+          id="message"
+          label="The challenge and the outcome you want"
+          multiline
+          minRows={6}
+          fullWidth
+          value={fields.message}
+          onChange={(event) => update('message', event.target.value)}
+          error={Boolean(errors.message)}
+          helperText={errors.message}
+        />
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <Button type="submit">Prepare inquiry</Button>
         {prepared ? (
           <>
-            <button type="button" onClick={openEmail} className="inline-flex items-center gap-2 rounded-[3px] border border-navy/20 px-4 py-3 text-sm font-semibold text-navy">
-              <Mail className="size-4" />
+            <MuiButton variant="outlined" color="primary" startIcon={<Mail className="size-4" />} onClick={openEmail} sx={outlineSx}>
               Open in email
-            </button>
-            <button type="button" onClick={copy} className="inline-flex items-center gap-2 rounded-[3px] border border-navy/20 px-4 py-3 text-sm font-semibold text-navy">
-              {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+            </MuiButton>
+            <MuiButton
+              variant="outlined"
+              color="primary"
+              startIcon={copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+              onClick={copy}
+              sx={outlineSx}
+            >
               {copied ? 'Copied' : 'Copy message'}
-            </button>
+            </MuiButton>
           </>
         ) : null}
       </div>
