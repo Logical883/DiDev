@@ -616,7 +616,7 @@ export const programmePages: Record<string, ProgrammePage> = {
       { label: 'Fee', value: '$70' },
       { label: 'Access', value: 'Start any time' },
     ],
-    cta: { label: 'Enrol for $70', href: 'https://nestuge.com/vrvpqsswk' },
+    cta: { label: 'Enrol for $70', href: 'https://nestuge.com/pr_mt772yaok9elndna74wuh5omnyfu2' },
     note: 'Payment is handled securely by Nestuge. You get access straight after purchase.',
   },
   '100-days-of-data': {
