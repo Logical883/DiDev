@@ -51,8 +51,8 @@ export function Footer() {
     <footer className="bg-navy text-white">
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-4">
         <div>
-          <Link to="/" className="inline-flex bg-white px-3 py-2" aria-label="DiDev home">
-            <img src="/brand/logo-horizontal.png" alt="DiDev. Learn. Build. Transform." className="h-12 w-auto" />
+          <Link to="/" className="inline-flex" aria-label="DiDev home">
+            <img src="/brand/logo-horizontal-gray.png" alt="DiDev. Learn. Build. Transform." className="h-12 w-auto" />
           </Link>
           <p className="mt-4 text-sm text-white/60">{company.tagline}</p>
 
